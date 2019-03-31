@@ -8,7 +8,6 @@ endState.prototype = {
         this.scoreText.text = param;
         this.gameOver = game.add.text(window.innerWidth/2, window.innerHeight/2, "Game Over", { font: "50px fipp", fill: "#ffffff" });
         this.restartText = game.add.text(window.innerWidth/2 - 200, window.innerHeight/2 + 100, "Press Space to Restart", { font: "50px fipp", fill: "#ffffff" });
-        
 	},
 	create: function(){
 		var spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
