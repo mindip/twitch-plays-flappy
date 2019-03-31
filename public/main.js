@@ -11,7 +11,7 @@ mainState.prototype = {
       this.gravity = 1600;
       this.speed = 1600;
     } else if (param == "meme") {
-      this.gravity = 2000;
+      this.gravity = -2000;
       this.speed = 1600;
       this.meme = 1;
     }
@@ -50,7 +50,7 @@ mainState.prototype = {
     //   add bird
     this.bird = game.add.sprite(
       window.innerWidth / 2,
-      window.innerHeight / 4,
+      this.meme ? 3 * window.innerHeight/4 : window.innerHeight / 4,
       "bird"
     );
     this.bird.anchor.setTo(-0.2, 0.5);
@@ -128,7 +128,7 @@ mainState.prototype = {
   jump: function() {
     // Add a vertical velocity to the bird
     this.jumpSound.play();
-    this.bird.body.velocity.y = -300;
+    this.bird.body.velocity.y = this.meme ? 300 : -300;
     game.add
       .tween(this.bird)
       .to({ angle: -17 }, 100)
@@ -168,6 +168,6 @@ mainState.prototype = {
   },
   // Restart the game
   restartGame: function() {
-    game.state.start("end", true, false, this.meme ? 420 : this.score);
+    game.state.start("end", true, false, this.meme ?"🔥 420 🔥 ": this.score);
   }
 };
