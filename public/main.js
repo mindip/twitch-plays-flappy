@@ -41,6 +41,7 @@ mainState.prototype = {
       window.innerHeight / 2,
       "bird"
     );
+    this.bird.anchor.setTo(-0.2, 0.5);
     //   create pipes
     this.pipes = game.add.group();
 
@@ -75,6 +76,7 @@ mainState.prototype = {
 
   update: function() {
     // If the bird leaves the screen
+    if (this.bird.angle < 20) this.bird.angle += 1;
     if (this.bird.y < 0 || this.bird.y > window.innerHeight + 10)
       this.restartGame();
 
@@ -102,7 +104,11 @@ mainState.prototype = {
 
   jump: function() {
     // Add a vertical velocity to the bird
-    this.bird.body.velocity.y = -350;
+    this.bird.body.velocity.y = -300;
+    game.add
+      .tween(this.bird)
+      .to({ angle: -17 }, 100)
+      .start();
   },
   addOnePipe: function(x, y, edge) {
     // Create a pipe at the position x and y
