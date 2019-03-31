@@ -1,6 +1,21 @@
 // Create our 'main' state that will contain the game
+function mainState() {};
 
-var mainState = {
+mainState.prototype = {
+  init: function(param){
+    if (param == "easy"){
+      this.gravity = 950;
+      this.speed = 2000;
+    }
+    else if(param == "hard"){
+      this.gravity = 1600;
+      this.speed = 1600;
+    }
+    else if(param == "meme"){
+      this.gravity = 2500;
+      this.speed = 1600;
+    }
+  },
   preload: function() {
     // Load the bird sprite
     game.load.image("bird", "assets/bird.png");
@@ -36,7 +51,7 @@ var mainState = {
     game.physics.arcade.enable(this.bird);
 
     // Add gravity to the bird
-    this.bird.body.gravity.y = 950;
+    this.bird.body.gravity.y = this.gravity;
 
     // Call the 'jump' function on spacekey
     this.enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
@@ -57,7 +72,7 @@ var mainState = {
     });
 
     this.addRowOfPipes;
-    this.timer = game.time.events.loop(1600, this.addRowOfPipes, this);
+    this.timer = game.time.events.loop(this.speed, this.addRowOfPipes, this);
   },
 
   update: function() {
