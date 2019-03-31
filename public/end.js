@@ -12,7 +12,7 @@ endState.prototype = {
       { font: "50px impact", fill: "#ffffff" }
     );
     this.userText = game.add.text(
-      window.innerWidth / 2 - 250,
+      window.innerWidth / 2 - 300,
       window.innerHeight / 2 - 150,
       "Press Enter to Join the Leaderboard",
       { font: "50px impact", fill: "#ffffff" }

@@ -4,26 +4,26 @@ var startState = {
     this.startText = game.add.text(
       window.innerWidth / 2 - 200,
       window.innerHeight / 2 - 100,
-      "Select Your Difficulty",
-      { font: "40px Impact", fill: "#ffffff" }
+      "Select Your Difficulty \n",
+      { font: "50px Impact", fill: "#ffffff" }
     );
     this.easyText = game.add.text(
       window.innerWidth / 2 - 200,
       window.innerHeight / 2 - 50,
       "Easy - E",
-      { font: "30px Impact", fill: "#ffffff" }
+      { font: "40px Impact", fill: "#ffffff" }
     );
     this.hardText = game.add.text(
       window.innerWidth / 2 - 200,
       window.innerHeight / 2,
       "Hard - H",
-      { font: "30px Impact", fill: "#ffffff" }
+      { font: "40px Impact", fill: "#ffffff" }
     );
     this.memeText = game.add.text(
       window.innerWidth / 2 - 200,
       window.innerHeight / 2 + 50,
       "Meme - M",
-      { font: "30px Impact", fill: "#ffffff" }
+      { font: "40px Impact", fill: "#ffffff" }
     );
     var eKey = game.input.keyboard.addKey(Phaser.Keyboard.E);
     eKey.onDown.addOnce(this.easyStart, this);
