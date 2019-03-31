@@ -12,18 +12,23 @@ var mainState = {
     // Set the physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    this.bird = game.add.sprite(120, 100, "bird");
+    //   add bird
+    this.bird = game.add.sprite(120, 300, "bird");
+    //   create pipes
+    this.pipes = game.add.group();
 
     // Add physics to the bird
     // Needed for: movements, gravity, collisions, etc.
     game.physics.arcade.enable(this.bird);
 
     // Add gravity to the bird
-    this.bird.body.gravity.y = 900;
+    this.bird.body.gravity.y = 950;
 
     // Call the 'jump' function on spacekey
     var spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     spaceKey.onDown.add(this.jump, this);
+    this.addRowOfPipes;
+    this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
   },
 
   update: function() {
@@ -36,7 +41,34 @@ var mainState = {
     // Add a vertical velocity to the bird
     this.bird.body.velocity.y = -350;
   },
+  addOnePipe: function(x, y) {
+    // Create a pipe at the position x and y
+    var pipe = game.add.sprite(x, y, "pipe");
 
+    // Add the pipe to our previously created group
+    this.pipes.add(pipe);
+
+    // Enable physics on the pipe
+    game.physics.arcade.enable(pipe);
+
+    // Add velocity to the pipe to make it move left
+    pipe.body.velocity.x = -200;
+
+    // Automatically kill the pipe when it's no longer visible
+    pipe.checkWorldBounds = true;
+    pipe.outOfBoundsKill = true;
+  },
+  addRowOfPipes: function() {
+    // Randomly pick a number between 1 and 5
+    // This will be the hole position
+    var hole = Math.floor(Math.random() * 6) + 1;
+
+    // Add the 6 pipes
+    // With one big hole at position 'hole' and 'hole + 1'
+    for (var i = 0; i < 20; i++)
+      if (i > hole + 1 || i < hole - 1)
+        this.addOnePipe(window.innerWidth, i * 60 + 10);
+  },
   // Restart the game
   restartGame: function() {
     game.state.start("main");
