@@ -1,7 +1,13 @@
+@font-face {
+  font-family: "fipp";
+  src: url("./assets/font.otf");
+}
+
 html,
 body {
   height: 100%;
   overflow: hidden;
+  font-family: "fipp";
 }
 
 body {

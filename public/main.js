@@ -42,20 +42,20 @@ var mainState = {
     tabKey.onDown.add(this.jump, this);
     this.score = 0;
     this.labelScore = game.add.text(window.innerWidth / 2, 20, "0", {
-      font: "30px Arial",
+      font: "25px fipp",
       fill: "#ffffff"
     });
-    this.player1 = game.add.text(20, 20, "Player 1", {
-      font: "50px Arial",
+    this.player1 = game.add.text(30, 30, "Player 1", {
+      font: "30px fipp",
       fill: "#ffffff"
     });
     this.player2 = game.add.text(window.innerWidth - 200, 20, "", {
-      font: "50px Arial",
+      font: "30px fipp",
       fill: "#ffffff"
     });
 
     this.addRowOfPipes;
-    this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
+    this.timer = game.time.events.loop(1600, this.addRowOfPipes, this);
   },
 
   update: function() {
@@ -109,7 +109,7 @@ var mainState = {
   addRowOfPipes: function() {
     // Randomly pick a number between 1 and 5
     // This will be the hole position
-    var hole = Math.floor(Math.random() * 6) + 1;
+    var hole = Math.floor(Math.random() * 5) + 4;
 
     // Add the 6 pipes
     // With one big hole at position 'hole' and 'hole + 1'
