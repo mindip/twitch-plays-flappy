@@ -2,6 +2,19 @@
 <html>
   <head>
     <link rel="stylesheet" href="styles.css" />
+    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyC7daQvgbUgkvQoQ6LFcLaqhAeb-4JZaAQ",
+        authDomain: "twitch-plays-flappy.firebaseapp.com",
+        databaseURL: "https://twitch-plays-flappy.firebaseio.com",
+        projectId: "twitch-plays-flappy",
+        storageBucket: "twitch-plays-flappy.appspot.com",
+        messagingSenderId: "139229615873"
+      };
+      firebase.initializeApp(config);
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
   </head>
   <!DOCTYPE html>

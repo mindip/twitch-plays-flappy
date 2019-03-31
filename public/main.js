@@ -1,40 +1,37 @@
 // Create our 'main' state that will contain the game
-function mainState() {};
+function mainState() {}
 
 mainState.prototype = {
-  init: function(param){
+  init: function(param) {
     this.meme = 0;
-    if (param == "easy"){
+    if (param == "easy") {
       this.gravity = 950;
       this.speed = 2000;
-    }
-    else if(param == "hard"){
+    } else if (param == "hard") {
       this.gravity = 1600;
       this.speed = 1600;
-    }
-    else if(param == "meme"){
-      this.gravity = 2500;
+    } else if (param == "meme") {
+      this.gravity = 2000;
       this.speed = 1600;
       this.meme = 1;
     }
   },
   preload: function() {
     // Load the bird sprite
-    if(this.meme){
+    if (this.meme) {
       game.load.image("bird", "assets/geneblock.jpg");
       game.load.image("mid", "assets/trojan.png");
       game.load.image("top", "assets/headtop.png");
       game.load.image("bottom", "assets/headbottom.png");
       game.load.image("background", "assets/royce.jpg");
-      game.load.audio('jump', 'assets/airhorn.wav');
-    }
-    else{
+      game.load.audio("jump", "assets/airhorn.wav");
+    } else {
       game.load.image("bird", "assets/bird.png");
       game.load.image("mid", "assets/pipe.png");
       game.load.image("top", "assets/top.png");
       game.load.image("bottom", "assets/bottom.png");
       game.load.image("background", "assets/background.png");
-      game.load.audio('jump', 'assets/cutejump.wav');
+      game.load.audio("jump", "assets/cutejump.wav");
     }
   },
 
@@ -53,9 +50,10 @@ mainState.prototype = {
     //   add bird
     this.bird = game.add.sprite(
       window.innerWidth / 2,
-      window.innerHeight / 2,
+      window.innerHeight / 4,
       "bird"
     );
+    this.bird.anchor.setTo(-0.2, 0.5);
     //   create pipes
     this.pipes = game.add.group();
 
@@ -67,43 +65,44 @@ mainState.prototype = {
     this.bird.body.gravity.y = this.gravity;
 
     // Call the 'jump' function on spacekey
-    this.enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+    this.enterKey = game.input.keyboard.addKey(Phaser.Keyboard.BACKWARD_SLASH);
     this.tabKey = game.input.keyboard.addKey(Phaser.Keyboard.TAB);
     this.tabKey.onDown.add(this.jump, this);
     this.score = 0;
-    this.labelScore = game.add.text(window.innerWidth / 2, 20, "0", {
-      font: "25px fipp",
+    this.labelScore = game.add.text(window.innerWidth / 2, 50, "0", {
+      font: "55px impact",
       fill: "#ffffff"
     });
-    this.player1 = game.add.text(30, 30, "Player 1", {
-      font: "30px fipp",
+    this.player1 = game.add.text(50, 50, "Player 1", {
+      font: "30px impact",
       fill: "#ffffff"
     });
-    this.player2 = game.add.text(window.innerWidth - 200, 20, "", {
-      font: "30px fipp",
+    this.player2 = game.add.text(window.innerWidth - 250, 50, "", {
+      font: "30px impact",
       fill: "#ffffff"
     });
 
     this.addRowOfPipes;
     this.timer = game.time.events.loop(this.speed, this.addRowOfPipes, this);
 
-    this.jumpSound = game.add.audio('jump'); 
+    this.jumpSound = game.add.audio("jump");
   },
 
   update: function() {
     // If the bird leaves the screen
+    if (this.bird.angle < 20) this.bird.angle += 1;
     if (this.bird.y < 0 || this.bird.y > window.innerHeight + 10)
       this.restartGame();
 
     if (this.tabKey.isDown) {
       this.enterKey.onDown.add(this.jump, this);
       this.tabKey.onDown.remove(this.jump, this);
-      this.player2.text = "Player 2";
+      this.player2.text = "Player 2 \n BACKSLASH";
       this.player1.text = "";
     } else if (this.enterKey.isDown) {
       this.tabKey.onDown.add(this.jump, this);
       this.enterKey.onDown.remove(this.jump, this);
-      this.player1.text = "Player 1";
+      this.player1.text = "Player 1 \n TAB";
       this.player2.text = "";
     }
     this.score++;
@@ -119,8 +118,12 @@ mainState.prototype = {
 
   jump: function() {
     // Add a vertical velocity to the bird
-    this.bird.body.velocity.y = -350;
-    this.jumpSound.play(); 
+    this.jumpSound.play();
+    this.bird.body.velocity.y = -300;
+    game.add
+      .tween(this.bird)
+      .to({ angle: -17 }, 100)
+      .start();
   },
   addOnePipe: function(x, y, edge) {
     // Create a pipe at the position x and y
