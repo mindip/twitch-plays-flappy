@@ -1,17 +1,15 @@
 // Create our 'main' state that will contain the game
-function mainState() {};
+function mainState() {}
 
 mainState.prototype = {
-  init: function(param){
-    if (param == "easy"){
+  init: function(param) {
+    if (param == "easy") {
       this.gravity = 950;
       this.speed = 2000;
-    }
-    else if(param == "hard"){
+    } else if (param == "hard") {
       this.gravity = 1600;
       this.speed = 1600;
-    }
-    else if(param == "meme"){
+    } else if (param == "meme") {
       this.gravity = 2500;
       this.speed = 1600;
     }
@@ -58,16 +56,16 @@ mainState.prototype = {
     this.tabKey = game.input.keyboard.addKey(Phaser.Keyboard.TAB);
     this.tabKey.onDown.add(this.jump, this);
     this.score = 0;
-    this.labelScore = game.add.text(window.innerWidth / 2, 20, "0", {
-      font: "25px fipp",
+    this.labelScore = game.add.text(window.innerWidth / 2, 50, "0", {
+      font: "55px impact",
       fill: "#ffffff"
     });
-    this.player1 = game.add.text(30, 30, "Player 1", {
-      font: "30px fipp",
+    this.player1 = game.add.text(50, 50, "Player 1", {
+      font: "30px impact",
       fill: "#ffffff"
     });
-    this.player2 = game.add.text(window.innerWidth - 200, 20, "", {
-      font: "30px fipp",
+    this.player2 = game.add.text(window.innerWidth - 250, 50, "", {
+      font: "30px impact",
       fill: "#ffffff"
     });
 
@@ -83,12 +81,12 @@ mainState.prototype = {
     if (this.tabKey.isDown) {
       this.enterKey.onDown.add(this.jump, this);
       this.tabKey.onDown.remove(this.jump, this);
-      this.player2.text = "Player 2";
+      this.player2.text = "Player 2 \n RETURN";
       this.player1.text = "";
     } else if (this.enterKey.isDown) {
       this.tabKey.onDown.add(this.jump, this);
       this.enterKey.onDown.remove(this.jump, this);
-      this.player1.text = "Player 1";
+      this.player1.text = "Player 1 \n TAB";
       this.player2.text = "";
     }
     this.score++;
