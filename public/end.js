@@ -5,15 +5,6 @@ endState.prototype = {
     this.score = param;
     game.stage.backgroundColor = "#09f";
     this.db = firebase.firestore();
-    this.db
-      .collection("scores")
-      .add({
-        user: "asdawerawer",
-        score: param
-      })
-      .then(ref => {
-        console.log("SUCCESS");
-      });
     this.scoreText = game.add.text(
       window.innerWidth / 2 - 250,
       window.innerHeight / 2 - 200,
