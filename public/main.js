@@ -23,7 +23,11 @@ var mainState = {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //   add bird
-    this.bird = game.add.sprite(120, 300, "bird");
+    this.bird = game.add.sprite(
+      window.innerWidth / 2,
+      window.innerHeight / 2,
+      "bird"
+    );
     //   create pipes
     this.pipes = game.add.group();
 
@@ -61,17 +65,16 @@ var mainState = {
     if (this.bird.y < 0 || this.bird.y > window.innerHeight + 10)
       this.restartGame();
 
-    if (this.tabKey.isDown){
-        this.enterKey.onDown.add(this.jump, this);
-        this.tabKey.onDown.remove(this.jump, this);
-        this.player2.text = "Player 2";
-        this.player1.text = "";
-    }
-    else if(this.enterKey.isDown){
-        this.tabKey.onDown.add(this.jump, this);
-        this.enterKey.onDown.remove(this.jump, this);
-        this.player1.text = "Player 1";
-        this.player2.text = "";
+    if (this.tabKey.isDown) {
+      this.enterKey.onDown.add(this.jump, this);
+      this.tabKey.onDown.remove(this.jump, this);
+      this.player2.text = "Player 2";
+      this.player1.text = "";
+    } else if (this.enterKey.isDown) {
+      this.tabKey.onDown.add(this.jump, this);
+      this.enterKey.onDown.remove(this.jump, this);
+      this.player1.text = "Player 1";
+      this.player2.text = "";
     }
     this.score++;
     this.labelScore.text = this.score;
