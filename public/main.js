@@ -73,10 +73,15 @@ mainState.prototype = {
       font: "55px impact",
       fill: "#ffffff"
     });
-    this.player1 = game.add.text(50, 50, "🔥 Player 1 🔥 \n TAB", {
-      font: "30px impact",
-      fill: "#ffffff"
-    });
+    this.player1 = game.add.text(
+      50,
+      50,
+      this.meme ? "🔥 Player 1 🔥 \n DAB" : "Player 1 \n TAB",
+      {
+        font: "30px impact",
+        fill: "#ffffff"
+      }
+    );
     this.player2 = game.add.text(window.innerWidth - 250, 50, "", {
       font: "30px impact",
       fill: "#ffffff"
@@ -97,12 +102,16 @@ mainState.prototype = {
     if (this.tabKey.isDown) {
       this.enterKey.onDown.add(this.jump, this);
       this.tabKey.onDown.remove(this.jump, this);
-      this.player2.text = "🔥 Player 2 🔥\n BACKSLASH";
+      this.player2.text = this.meme
+        ? "🔥 Player 2 🔥 \n DAB"
+        : "Player 2 \n BACKSLASH";
       this.player1.text = "";
     } else if (this.enterKey.isDown) {
       this.tabKey.onDown.add(this.jump, this);
       this.enterKey.onDown.remove(this.jump, this);
-      this.player1.text = "Player 1 \n TAB";
+      this.player1.text = this.meme
+        ? "🔥 Player 1 🔥 \n DAB"
+        : "Player 1 \n TAB";
       this.player2.text = "";
     }
     this.score++;
