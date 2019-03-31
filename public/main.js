@@ -159,6 +159,6 @@ mainState.prototype = {
   },
   // Restart the game
   restartGame: function() {
-    game.state.start("end", true, false, this.score);
+    game.state.start("end", true, false, this.meme ? 420 : this.score);
   }
 };
