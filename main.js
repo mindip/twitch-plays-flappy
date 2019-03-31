@@ -11,6 +11,7 @@ var mainState = {
 
   create: function() {
     game.stage.backgroundColor = "#09f";
+    
     // Set the physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -31,9 +32,9 @@ var mainState = {
     tabKey = game.input.keyboard.addKey(Phaser.Keyboard.TAB);
     tabKey.onDown.add(this.jump, this);
     this.score = 0;
-    this.labelScore = game.add.text(190, 20, "0", { font: "30px Arial", fill: "#ffffff" });
-    this.player1 = game.add.text(20, 20, "Player 1", { font: "20px Arial", fill: "#ffffff" });
-    this.player2 = game.add.text(20, 20, "", { font: "20px Arial", fill: "#ffffff" });
+    this.labelScore = game.add.text(window.innerWidth/2, 20, "0", { font: "30px Arial", fill: "#ffffff" });
+    this.player1 = game.add.text(20, 20, "Player 1", { font: "50px Arial", fill: "#ffffff" });
+    this.player2 = game.add.text(window.innerWidth - 200, 20, "", { font: "50px Arial", fill: "#ffffff" });
 
     this.addRowOfPipes;
     this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
@@ -56,6 +57,9 @@ var mainState = {
         this.player1.text = "Player 1";
         this.player2.text = "";
     }
+    this.score++;
+    this.labelScore.text = this.score;
+    game.physics.arcade.overlap(this.bird, this.pipes, this.restartGame, null, this);
   },
 
   jump: function() {
@@ -92,10 +96,15 @@ var mainState = {
   },
   // Restart the game
   restartGame: function() {
-    game.state.start("main");
+    game.state.start("end");
   }
 };
 
+
+/*
+
 var game = new Phaser.Game(window.innerWidth, window.innerHeight);
 game.state.add("main", mainState);
+game.state.add("end", endState);
 game.state.start("main");
+*/
