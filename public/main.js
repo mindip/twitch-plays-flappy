@@ -4,12 +4,21 @@ var mainState = {
   preload: function() {
     // Load the bird sprite
     game.load.image("bird", "assets/bird.png");
-    game.load.image("pipe", "assets/pipe.png");
+    game.load.image("mid", "assets/pipe.png");
+    game.load.image("top", "assets/top.png");
+    game.load.image("bottom", "assets/bottom.png");
+    game.load.image("background", "assets/background.png");
   },
 
   create: function() {
-    game.stage.backgroundColor = "#09f";
-    
+    game.add.tileSprite(
+      0,
+      0,
+      window.innerWidth,
+      window.innerHeight,
+      "background"
+    );
+    game.stage.backgroundColor = "#0099fe";
     // Set the physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -30,12 +39,21 @@ var mainState = {
     this.tabKey = game.input.keyboard.addKey(Phaser.Keyboard.TAB);
     this.tabKey.onDown.add(this.jump, this);
     this.score = 0;
-    this.labelScore = game.add.text(window.innerWidth/2, 20, "0", { font: "30px fipp", fill: "#ffffff" });
-    this.player1 = game.add.text(20, 20, "Player 1", { font: "50px fipp", fill: "#ffffff" });
-    this.player2 = game.add.text(window.innerWidth - 200, 20, "", { font: "50px fipp", fill: "#ffffff" });
+    this.labelScore = game.add.text(window.innerWidth / 2, 20, "0", {
+      font: "25px fipp",
+      fill: "#ffffff"
+    });
+    this.player1 = game.add.text(30, 30, "Player 1", {
+      font: "30px fipp",
+      fill: "#ffffff"
+    });
+    this.player2 = game.add.text(window.innerWidth - 200, 20, "", {
+      font: "30px fipp",
+      fill: "#ffffff"
+    });
 
     this.addRowOfPipes;
-    this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
+    this.timer = game.time.events.loop(1600, this.addRowOfPipes, this);
   },
 
   update: function() {
@@ -57,16 +75,22 @@ var mainState = {
     }
     this.score++;
     this.labelScore.text = this.score;
-    game.physics.arcade.overlap(this.bird, this.pipes, this.restartGame, null, this);
+    game.physics.arcade.overlap(
+      this.bird,
+      this.pipes,
+      this.restartGame,
+      null,
+      this
+    );
   },
 
   jump: function() {
     // Add a vertical velocity to the bird
     this.bird.body.velocity.y = -350;
   },
-  addOnePipe: function(x, y) {
+  addOnePipe: function(x, y, edge) {
     // Create a pipe at the position x and y
-    var pipe = game.add.sprite(x, y, "pipe");
+    var pipe = game.add.sprite(x, y, edge);
 
     // Add the pipe to our previously created group
     this.pipes.add(pipe);
@@ -84,13 +108,17 @@ var mainState = {
   addRowOfPipes: function() {
     // Randomly pick a number between 1 and 5
     // This will be the hole position
-    var hole = Math.floor(Math.random() * 6) + 1;
+    var hole = Math.floor(Math.random() * 5) + 4;
 
     // Add the 6 pipes
     // With one big hole at position 'hole' and 'hole + 1'
-    for (var i = 0; i < 20; i++)
-      if (i > hole + 1 || i < hole - 1)
-        this.addOnePipe(window.innerWidth, i * 60 + 10);
+    for (var i = 0; i < 20; i++) {
+      if (i == hole - 2)
+        this.addOnePipe(window.innerWidth - 4, i * 50, "bottom");
+      if (i == hole + 2) this.addOnePipe(window.innerWidth - 4, i * 50, "top");
+      if (i > hole + 2 || i < hole - 2)
+        this.addOnePipe(window.innerWidth, i * 50, "mid");
+    }
   },
   // Restart the game
   restartGame: function() {
