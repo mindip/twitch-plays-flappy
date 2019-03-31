@@ -3,6 +3,7 @@ function mainState() {};
 
 mainState.prototype = {
   init: function(param){
+    this.meme = 0;
     if (param == "easy"){
       this.gravity = 950;
       this.speed = 2000;
@@ -14,15 +15,27 @@ mainState.prototype = {
     else if(param == "meme"){
       this.gravity = 2500;
       this.speed = 1600;
+      this.meme = 1;
     }
   },
   preload: function() {
     // Load the bird sprite
-    game.load.image("bird", "assets/bird.png");
-    game.load.image("mid", "assets/pipe.png");
-    game.load.image("top", "assets/top.png");
-    game.load.image("bottom", "assets/bottom.png");
-    game.load.image("background", "assets/background.png");
+    if(this.meme){
+      game.load.image("bird", "assets/geneblock.jpg");
+      game.load.image("mid", "assets/trojan.png");
+      game.load.image("top", "assets/headtop.png");
+      game.load.image("bottom", "assets/headbottom.png");
+      game.load.image("background", "assets/royce.jpg");
+      game.load.audio('jump', 'assets/airhorn.wav');
+    }
+    else{
+      game.load.image("bird", "assets/bird.png");
+      game.load.image("mid", "assets/pipe.png");
+      game.load.image("top", "assets/top.png");
+      game.load.image("bottom", "assets/bottom.png");
+      game.load.image("background", "assets/background.png");
+      game.load.audio('jump', 'assets/cutejump.wav');
+    }
   },
 
   create: function() {
@@ -73,6 +86,8 @@ mainState.prototype = {
 
     this.addRowOfPipes;
     this.timer = game.time.events.loop(this.speed, this.addRowOfPipes, this);
+
+    this.jumpSound = game.add.audio('jump'); 
   },
 
   update: function() {
@@ -105,6 +120,7 @@ mainState.prototype = {
   jump: function() {
     // Add a vertical velocity to the bird
     this.bird.body.velocity.y = -350;
+    this.jumpSound.play(); 
   },
   addOnePipe: function(x, y, edge) {
     // Create a pipe at the position x and y
