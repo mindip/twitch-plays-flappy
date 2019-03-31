@@ -1,4 +1,6 @@
 // Create our 'main' state that will contain the game
+var enterKey;
+var tabKey;
 
 var mainState = {
   preload: function() {
@@ -25,8 +27,14 @@ var mainState = {
     this.bird.body.gravity.y = 950;
 
     // Call the 'jump' function on spacekey
-    var spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    spaceKey.onDown.add(this.jump, this);
+    enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+    tabKey = game.input.keyboard.addKey(Phaser.Keyboard.TAB);
+    tabKey.onDown.add(this.jump, this);
+    this.score = 0;
+    this.labelScore = game.add.text(190, 20, "0", { font: "30px Arial", fill: "#ffffff" });
+    this.player1 = game.add.text(20, 20, "Player 1", { font: "20px Arial", fill: "#ffffff" });
+    this.player2 = game.add.text(20, 20, "", { font: "20px Arial", fill: "#ffffff" });
+
     this.addRowOfPipes;
     this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
   },
@@ -35,6 +43,19 @@ var mainState = {
     // If the bird leaves the screen
     if (this.bird.y < 0 || this.bird.y > window.innerHeight + 10)
       this.restartGame();
+
+    if (tabKey.isDown){
+        enterKey.onDown.add(this.jump, this);
+        tabKey.onDown.remove(this.jump, this);
+        this.player2.text = "Player 2";
+        this.player1.text = "";
+    }
+    else if(enterKey.isDown){
+        tabKey.onDown.add(this.jump, this);
+        enterKey.onDown.remove(this.jump, this);
+        this.player1.text = "Player 1";
+        this.player2.text = "";
+    }
   },
 
   jump: function() {
