@@ -6,11 +6,21 @@ var mainState = {
   preload: function() {
     // Load the bird sprite
     game.load.image("bird", "assets/bird.png");
-    game.load.image("pipe", "assets/pipe.png");
+    game.load.image("mid", "assets/pipe.png");
+    game.load.image("top", "assets/top.png");
+    game.load.image("bottom", "assets/bottom.png");
+    game.load.image("background", "assets/background.png");
   },
 
   create: function() {
-    game.stage.backgroundColor = "#09f";
+    game.add.tileSprite(
+      0,
+      0,
+      window.innerWidth,
+      window.innerHeight,
+      "background"
+    );
+    game.stage.backgroundColor = "#0099fe";
     // Set the physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -31,9 +41,18 @@ var mainState = {
     tabKey = game.input.keyboard.addKey(Phaser.Keyboard.TAB);
     tabKey.onDown.add(this.jump, this);
     this.score = 0;
-    this.labelScore = game.add.text(190, 20, "0", { font: "30px Arial", fill: "#ffffff" });
-    this.player1 = game.add.text(20, 20, "Player 1", { font: "20px Arial", fill: "#ffffff" });
-    this.player2 = game.add.text(20, 20, "", { font: "20px Arial", fill: "#ffffff" });
+    this.labelScore = game.add.text(190, 20, "0", {
+      font: "30px Arial",
+      fill: "#ffffff"
+    });
+    this.player1 = game.add.text(20, 20, "Player 1", {
+      font: "20px Arial",
+      fill: "#ffffff"
+    });
+    this.player2 = game.add.text(20, 20, "", {
+      font: "20px Arial",
+      fill: "#ffffff"
+    });
 
     this.addRowOfPipes;
     this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
@@ -44,17 +63,16 @@ var mainState = {
     if (this.bird.y < 0 || this.bird.y > window.innerHeight + 10)
       this.restartGame();
 
-    if (tabKey.isDown){
-        enterKey.onDown.add(this.jump, this);
-        tabKey.onDown.remove(this.jump, this);
-        this.player2.text = "Player 2";
-        this.player1.text = "";
-    }
-    else if(enterKey.isDown){
-        tabKey.onDown.add(this.jump, this);
-        enterKey.onDown.remove(this.jump, this);
-        this.player1.text = "Player 1";
-        this.player2.text = "";
+    if (tabKey.isDown) {
+      enterKey.onDown.add(this.jump, this);
+      tabKey.onDown.remove(this.jump, this);
+      this.player2.text = "Player 2";
+      this.player1.text = "";
+    } else if (enterKey.isDown) {
+      tabKey.onDown.add(this.jump, this);
+      enterKey.onDown.remove(this.jump, this);
+      this.player1.text = "Player 1";
+      this.player2.text = "";
     }
   },
 
@@ -62,9 +80,9 @@ var mainState = {
     // Add a vertical velocity to the bird
     this.bird.body.velocity.y = -350;
   },
-  addOnePipe: function(x, y) {
+  addOnePipe: function(x, y, edge) {
     // Create a pipe at the position x and y
-    var pipe = game.add.sprite(x, y, "pipe");
+    var pipe = game.add.sprite(x, y, edge);
 
     // Add the pipe to our previously created group
     this.pipes.add(pipe);
@@ -86,9 +104,13 @@ var mainState = {
 
     // Add the 6 pipes
     // With one big hole at position 'hole' and 'hole + 1'
-    for (var i = 0; i < 20; i++)
-      if (i > hole + 1 || i < hole - 1)
-        this.addOnePipe(window.innerWidth, i * 60 + 10);
+    for (var i = 0; i < 20; i++) {
+      if (i == hole - 2)
+        this.addOnePipe(window.innerWidth - 4, i * 50, "bottom");
+      if (i == hole + 2) this.addOnePipe(window.innerWidth - 4, i * 50, "top");
+      if (i > hole + 2 || i < hole - 2)
+        this.addOnePipe(window.innerWidth, i * 50, "mid");
+    }
   },
   // Restart the game
   restartGame: function() {
